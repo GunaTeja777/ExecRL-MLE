@@ -1,0 +1,13 @@
+pandas
+numpy
+scikit-learn
+xgboost
+lightgbm
+anthropic
+torch
+transformers
+datasets
+peft
+trl
+bitsandbytes
+accelerate
