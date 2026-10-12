@@ -4,6 +4,8 @@ scikit-learn
 xgboost
 lightgbm
 anthropic
+google-genai
+python-dotenv
 torch
 transformers
 datasets
@@ -11,3 +13,4 @@ peft
 trl
 bitsandbytes
 accelerate
+

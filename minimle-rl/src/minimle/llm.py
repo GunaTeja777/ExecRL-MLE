@@ -18,12 +18,19 @@ def api_generate(prompt: str) -> str:
             from google import genai
             _client = genai.Client(api_key=gemini_key)
             _provider = "gemini"
+        from google.genai import types
+        cfg = types.GenerateContentConfig(
+            system_instruction=SYSTEM,
+            temperature=0.8,
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
+        )
         resp = _client.models.generate_content(
             model=API_MODEL,
             contents=prompt,
-            config={"system_instruction": SYSTEM, "temperature": 0.8}
+            config=cfg
         )
         return resp.text
+
 
     elif anthropic_key:
         if _client is None or _provider != "anthropic":
