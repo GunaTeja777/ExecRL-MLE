@@ -154,34 +154,42 @@ This guides the model towards higher-scoring coding strategies without requiring
 
 ### 1. Prerequisites
 
-- **OS**: Linux or Windows with **WSL2** (recommended for Docker sandboxing).
+- **OS**: Windows (with **Docker Desktop**) or Linux / WSL2.
 - **Docker**: Installed and running (`docker --version`).
 - **Python**: `>= 3.10`.
-- **GPU (Optional)**: NVIDIA GPU with CUDA support for SFT/GRPO training (minimum 4 GB VRAM). Training can also be offloaded to Colab or Kaggle.
-- **API Key**: Anthropic API Key (if harvesting teacher trajectories via Claude).
+- **GPU (Optional)**: NVIDIA GPU with CUDA support (e.g. RTX 3050 with 4 GB VRAM fits the 0.5B student model in 4-bit QLoRA). Training can also be run on free Google Colab / Kaggle.
+- **API Key**: Free Google Gemini API Key (`GEMINI_API_KEY`) from [Google AI Studio](https://aistudio.google.com/) (Anthropic, OpenAI, or Groq are also supported).
 
-### 2. Installation
+### 2. Installation & Configuration
 
-Clone the repository and install the dependencies:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/GunaTeja777/ExecRL-MLE.git
+   cd ExecRL-MLE/minimle-rl
+   ```
 
-```bash
-git clone https://github.com/GunaTeja777/ExecRL-MLE.git
-cd ExecRL-MLE/minimle-rl
+2. Install dependencies and the package in editable mode:
+   ```bash
+   pip install -r requirements.txt
+   pip install -e .
+   ```
 
-# Install dependencies and editable package
-pip install -r requirements.txt
-pip install -e .
-```
+3. Create a `.env` file in the project root:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   API_MODEL=gemini-2.5-flash
+   USE_DOCKER=1
+   ```
 
 ### 3. Build the Docker Sandbox
 
-Build the lightweight container containing the allowed execution environment:
+Ensure Docker Desktop is running, then build the sandbox container:
 
 ```bash
 docker build -t minimle-sandbox docker/
 ```
 
-> **Note for Local Debugging**: If running on an environment without Docker, set `USE_DOCKER=0` in your environment to execute scripts in the host Python environment.
+> **Note for Local Execution**: If you wish to run without Docker, set `USE_DOCKER=0` in `.env` to execute scripts directly in your local Python environment.
 
 ---
 
@@ -200,13 +208,13 @@ python -m minimle.tasks
 
 ### Step 2: Harvest Teacher Trajectories
 
-Use a high-capacity teacher LLM (e.g., Claude 3.5 Sonnet) to run multi-step episodes (`Draft` ➔ `Improve`/`Debug`) on training tasks. Every state transition, code sample, error, and score is logged:
+Use a high-capacity teacher LLM (e.g., **Gemini 2.5 Flash**) to run multi-step episodes (`Draft` ➔ `Improve`/`Debug`) on training tasks. Every state transition, code sample, error, and score is logged:
 
 ```bash
-export ANTHROPIC_API_KEY="your-api-key"
-python -m minimle.collect --repeats 3 --steps 4
+python -m minimle.collect --repeats 2 --steps 4
 ```
 *Output:* `outputs/trajectories.jsonl`
+
 
 ---
 
@@ -281,11 +289,13 @@ Key parameters can be configured via environment variables or in `minimle/config
 
 | Variable | Default | Description |
 |---|---|---|
-| `BASE_MODEL` | `Qwen/Qwen2.5-Coder-0.5B-Instruct` | Base code language model |
-| `API_MODEL` | `claude-sonnet-5-5` | Teacher LLM used for data harvesting in `collect.py` |
+| `BASE_MODEL` | `Qwen/Qwen2.5-Coder-0.5B-Instruct` | Base code language model (Student model) |
+| `API_MODEL` | `gemini-2.5-flash` | Teacher LLM used for data harvesting in `collect.py` |
+| `GEMINI_API_KEY` | *(Set in `.env`)* | Google Gemini API key for teacher data collection |
 | `DOCKER_IMAGE` | `minimle-sandbox` | Tag of the container sandbox |
 | `USE_DOCKER` | `1` | `1` for secure Docker sandbox; `0` for local subprocess execution |
 | `RUN_TIMEOUT` | `90` | Maximum execution time (in seconds) per generated script |
+
 
 ---
 
