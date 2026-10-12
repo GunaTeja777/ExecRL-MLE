@@ -16,4 +16,6 @@ if __name__ == "__main__":
                 recs, _ = run_episode(api_generate, task, steps=a.steps)
                 for r in recs:
                     f.write(json.dumps(r) + "\n")
-                print(task, [(r["op"], r["score"]) for r in recs])
+                f.flush()
+                print(task, [(r["op"], f"AUC: {r['score']}" if r['score'] is not None else "failed") for r in recs], flush=True)
+
