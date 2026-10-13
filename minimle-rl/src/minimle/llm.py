@@ -24,12 +24,25 @@ def api_generate(prompt: str) -> str:
             temperature=0.8,
             automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
         )
-        resp = _client.models.generate_content(
-            model=API_MODEL,
-            contents=prompt,
-            config=cfg
-        )
-        return resp.text
+        import time, random
+        max_retries = 6
+        for attempt in range(max_retries):
+            try:
+                resp = _client.models.generate_content(
+                    model=API_MODEL,
+                    contents=prompt,
+                    config=cfg
+                )
+                return resp.text
+            except Exception as e:
+                err_str = str(e)
+                if attempt < max_retries - 1 and any(x in err_str for x in ["503", "429", "UNAVAILABLE", "RESOURCE_EXHAUSTED", "temporar"]):
+                    wait_time = min(2 ** attempt * 2 + random.uniform(1, 3), 30)
+                    print(f"\n[Gemini transient spike] Waiting {wait_time:.1f}s before retry ({attempt+1}/{max_retries})...", flush=True)
+                    time.sleep(wait_time)
+                else:
+                    raise
+
 
 
     elif anthropic_key:
