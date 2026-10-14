@@ -1,5 +1,4 @@
 import React from 'react';
-import { Award, CheckCircle2, TrendingUp } from 'lucide-react';
 
 export const ResultsBenchmarkSection: React.FC = () => {
   return (

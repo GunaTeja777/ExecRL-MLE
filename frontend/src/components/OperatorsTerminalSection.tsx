@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Award, Terminal, Play, Bug, TrendingUp, GitMerge, RefreshCw } from 'lucide-react';
 
 interface LogLine {
   text: string;
