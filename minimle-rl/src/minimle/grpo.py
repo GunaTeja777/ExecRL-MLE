@@ -61,7 +61,7 @@ if __name__ == "__main__":
         grad_accum = 2
 
     cfg = GRPOConfig(output_dir=str(OUT / "grpo"), per_device_train_batch_size=batch_size, num_generations=num_gen,
-                     gradient_accumulation_steps=grad_accum, learning_rate=1e-5, max_prompt_length=768,
+                     gradient_accumulation_steps=grad_accum, learning_rate=1e-5,
                      max_completion_length=384, bf16=bf16, gradient_checkpointing=True, logging_steps=1,
                      save_steps=50, report_to="none", model_init_kwargs=model_init_kwargs)
     lora = LoraConfig(r=16, lora_alpha=32, target_modules="all-linear", task_type="CAUSAL_LM")
