@@ -29,7 +29,7 @@ export const LadderLoopSection: React.FC = () => {
               <div className="node">02</div>
               <div>
                 <h4>Grounded SFT Warm-Start</h4>
-                <p>Imitating high-reward teacher trajectories ($\mathcal{R} \ge 0.2$) collected from Gemini inside Docker sandboxes. Trains basic contract obedience.</p>
+                <p>Imitating high-reward teacher trajectories (Reward &ge; 0.2) collected from Gemini inside Docker sandboxes. Trains basic contract obedience.</p>
               </div>
             </div>
 
