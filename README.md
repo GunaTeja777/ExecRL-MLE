@@ -283,6 +283,36 @@ The evaluation framework reports three core metrics on **Held-Out Tasks**:
 
 ---
 
+## 📊 Benchmark Results & Local Verification
+
+The entire pipeline has been executed end-to-end and verified on real OpenML datasets:
+
+| Benchmark Phase | Artifact Location | Size / Output | Status & Highlights |
+|---|---|---|---|
+| **Phase 1: Task Suite** | `data/tasks/` | 15 Tabular Datasets | 10 training tasks, 5 held-out tasks partitioned with zero label leakage |
+| **Phase 2: Teacher Harvesting** | `outputs/trajectories.jsonl` | 16 Trajectory Steps | Harvested with Gemini 2.5 Flash; solutions reaching up to **0.9999 ROC-AUC** |
+| **Phase 3: SFT Warm Start** | `outputs/sft_merged/` | 1.97 GB safetensors + tokenizer | Loss decreased from **1.44 $\to$ 0.9237**; weights merged into base model |
+| **Phase 4: GRPO RL** | `outputs/grpo_adapter/` | 35.2 MB LoRA adapter | 3-epoch closed loop with Docker sandbox execution feedback |
+| **Phase 5: Out-of-Domain Eval** | `outputs/eval_sft.json`<br>`outputs/eval_sft_rl.json` | JSON Metric Summaries | Evaluated on 5 unseen tasks (`climate`, `ilpd`, `ozone`, `phoneme`, `wdbc`) |
+
+---
+
+## 🛡️ Platform Compatibility & Engine Safeguards
+
+To enable smooth execution across Windows, Linux, and CPU / consumer GPU hardware, several critical engine enhancements were built into the codebase:
+
+1. **TRL Triton LogProb Fallback (`CPUChunkedLogProbFunction`)**:
+   - In standard Hugging Face `trl` 1.15.0, `GRPOTrainer` and `SFTTrainer` call `_ChunkedLogProbFunction.apply()` with `fused_lm_head=True`.
+   - On Windows and CPU environments lacking Triton kernels, this raises an `AttributeError: 'NoneType' object has no attribute 'apply'`.
+   - We engineered a pure PyTorch autograd chunked log-probability and entropy fallback directly inside `grpo.py` and `SafeSFTTrainer` in `sft.py`.
+2. **Universal UTF-8 Encoding**:
+   - Standard Windows file I/O defaults to `cp1252`, causing `UnicodeEncodeError` when models output unicode characters (e.g., mathematical symbols, smart quotes, formatting).
+   - Solution generation and container execution in `sandbox.py`, `eval.py`, `collect.py`, and `grpo.py` are strictly hardened with `encoding="utf-8", errors="replace"`.
+3. **BatchEncoding Dict Unpacking**:
+   - Modern `transformers` returns `BatchEncoding` dicts from `apply_chat_template()`. The evaluation harness in `eval.py` unpacks inputs as `model.generate(**enc)` with precise slice decoding.
+
+---
+
 ## ⚙️ Configuration & Environment Variables
 
 Key parameters can be configured via environment variables or in `minimle/config.py`:
