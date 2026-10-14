@@ -36,12 +36,34 @@ if __name__ == "__main__":
         rows.append({"prompt": to_messages(r["prompt"]), "task": r["task"], "best_before": float(r["best_before"])})
     data = Dataset.from_list(rows[: a.max_prompts])
 
-    bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)
-    cfg = GRPOConfig(output_dir=str(OUT / "grpo"), per_device_train_batch_size=4, num_generations=4,
-                     gradient_accumulation_steps=4, learning_rate=1e-5, max_prompt_length=768,
-                     max_completion_length=512, bf16=True, gradient_checkpointing=True, logging_steps=1,
-                     save_steps=50, report_to="none",
-                     model_init_kwargs={"quantization_config": bnb, "torch_dtype": torch.bfloat16})
+    use_cuda = torch.cuda.is_available()
+    try:
+        import bitsandbytes
+        has_bnb = True
+    except ImportError:
+        has_bnb = False
+
+    if use_cuda and has_bnb:
+        print("Using 4-bit QLoRA on CUDA for GRPO...", flush=True)
+        bnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.bfloat16)
+        model_init_kwargs = {"quantization_config": bnb, "torch_dtype": torch.bfloat16}
+        bf16 = True
+        batch_size = 4
+        num_gen = 4
+        grad_accum = 4
+    else:
+        device_label = "CUDA (FP16)" if use_cuda else "CPU (FP32)"
+        print(f"Running GRPO on {device_label}...", flush=True)
+        model_init_kwargs = {"torch_dtype": torch.float32}
+        bf16 = False
+        batch_size = 1
+        num_gen = 2
+        grad_accum = 2
+
+    cfg = GRPOConfig(output_dir=str(OUT / "grpo"), per_device_train_batch_size=batch_size, num_generations=num_gen,
+                     gradient_accumulation_steps=grad_accum, learning_rate=1e-5, max_prompt_length=768,
+                     max_completion_length=384, bf16=bf16, gradient_checkpointing=True, logging_steps=1,
+                     save_steps=50, report_to="none", model_init_kwargs=model_init_kwargs)
     lora = LoraConfig(r=16, lora_alpha=32, target_modules="all-linear", task_type="CAUSAL_LM")
     trainer = GRPOTrainer(model=a.model, reward_funcs=reward_fn, args=cfg, train_dataset=data, peft_config=lora)
     trainer.train()
