@@ -13,7 +13,7 @@ class SafeSFTTrainer(SFTTrainer):
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
         return Trainer.compute_loss(self, model, inputs, return_outputs=return_outputs, num_items_in_batch=num_items_in_batch)
 
-rows = [json.loads(l) for l in open(OUT / "trajectories.jsonl")]
+rows = [json.loads(l) for l in open(OUT / "trajectories.jsonl", encoding="utf-8")]
 good = [r for r in rows if r["ok"] and r["reward"] >= 0.2]
 data = Dataset.from_list([{"messages": to_messages(r["prompt"]) + [{"role": "assistant", "content": r["completion"]}]} for r in good])
 print(f"SFT on {len(data)} of {len(rows)} steps")

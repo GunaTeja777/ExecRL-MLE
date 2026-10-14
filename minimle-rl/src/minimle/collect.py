@@ -13,14 +13,14 @@ if __name__ == "__main__":
     traj_file = OUT / "trajectories.jsonl"
     counts = {}
     if traj_file.exists():
-        for line in open(traj_file):
+        for line in open(traj_file, encoding="utf-8"):
             try:
                 r = json.loads(line)
                 counts[r["task"]] = counts.get(r["task"], 0) + 1
             except Exception:
                 pass
 
-    with open(traj_file, "a") as f:
+    with open(traj_file, "a", encoding="utf-8") as f:
         for task in list_tasks("train"):
             done_episodes = counts.get(task, 0) // a.steps
             needed = a.repeats - done_episodes

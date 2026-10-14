@@ -5,10 +5,35 @@ from datasets import Dataset
 from peft import LoraConfig
 from transformers import BitsAndBytesConfig
 from trl import GRPOConfig, GRPOTrainer
+import trl.trainer.utils as trl_utils
 from .config import OUT
 from .prompts import extract_code, to_messages
 from .reward import compute_reward
 from .sandbox import Result, run_code
+
+# Fallback for systems running on CPU without Triton kernels
+if getattr(trl_utils, "_ChunkedLogProbFunction", None) is None:
+    class CPUChunkedLogProbFunction:
+        @staticmethod
+        def apply(hidden_states, weight, bias, labels, temperature, chunk_size, final_logit_softcapping, logit_scale, outputs):
+            logits = torch.matmul(hidden_states, weight.t())
+            if bias is not None:
+                logits = logits + bias
+            if logit_scale is not None and logit_scale != 1.0:
+                logits = logits * logit_scale
+            if final_logit_softcapping is not None:
+                logits = final_logit_softcapping * torch.tanh(logits / final_logit_softcapping)
+            if temperature != 1.0:
+                logits = logits / temperature
+            log_softmax = logits.log_softmax(dim=-1)
+            log_probs = torch.gather(log_softmax, dim=-1, index=labels.unsqueeze(-1)).squeeze(-1)
+            entropy = None
+            if "entropy" in outputs:
+                probs = log_softmax.exp()
+                entropy = -(probs * log_softmax).sum(dim=-1)
+            return (log_probs, entropy, None, None, None)
+
+    trl_utils._ChunkedLogProbFunction = CPUChunkedLogProbFunction
 
 
 def reward_fn(completions, task, best_before, **kwargs):
@@ -28,7 +53,7 @@ if __name__ == "__main__":
     a = ap.parse_args()
 
     seen, rows = set(), []
-    for l in open(OUT / "trajectories.jsonl"):
+    for l in open(OUT / "trajectories.jsonl", encoding="utf-8"):
         r = json.loads(l)
         if r["prompt"] in seen:
             continue

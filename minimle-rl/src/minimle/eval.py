@@ -43,6 +43,6 @@ if __name__ == "__main__":
     summary = dict(label=a.label, draft_success=sum(r["draft_ok"] for r in rows) / n,
                    any_success=sum(r["any_ok"] for r in rows) / n,
                    mean_test_auc=sum(r["test_auc"] for r in rows) / n, per_task=rows)
-    (OUT / f"eval_{a.label}.json").write_text(json.dumps(summary, indent=2))
+    (OUT / f"eval_{a.label}.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print({k: v for k, v in summary.items() if k != "per_task"}, flush=True)
 

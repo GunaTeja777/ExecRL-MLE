@@ -21,7 +21,7 @@ def run_code(code: str, task: str, split: str = "val") -> Result:
         w = Path(w)
         shutil.copy(tdir / "train.csv", w / "train.csv")
         shutil.copy(tdir / f"{split}_X.csv", w / "eval_X.csv")
-        (w / "solution.py").write_text(code)
+        (w / "solution.py").write_text(code, encoding="utf-8", errors="replace")
         name = f"mle-{uuid.uuid4().hex[:8]}"
         if USE_DOCKER:
             cmd = ["docker", "run", "--rm", "--name", name, "--network", "none",
@@ -32,7 +32,7 @@ def run_code(code: str, task: str, split: str = "val") -> Result:
         else:
             cmd = [sys.executable, "solution.py"]
         try:
-            p = subprocess.run(cmd, cwd=w, capture_output=True, text=True, timeout=TIMEOUT)
+            p = subprocess.run(cmd, cwd=w, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=TIMEOUT)
         except subprocess.TimeoutExpired:
             if USE_DOCKER:
                 subprocess.run(["docker", "kill", name], capture_output=True)
