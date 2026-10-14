@@ -27,10 +27,11 @@ if __name__ == "__main__":
     model.eval()
 
     def generate(prompt):
-        ids = tok.apply_chat_template(to_messages(prompt), add_generation_prompt=True, return_tensors="pt").to(device)
+        enc = tok.apply_chat_template(to_messages(prompt), add_generation_prompt=True, return_tensors="pt", return_dict=True).to(device)
+        input_len = enc["input_ids"].shape[1]
         with torch.no_grad():
-            out = model.generate(ids, max_new_tokens=600, do_sample=False)
-        return tok.decode(out[0][ids.shape[1]:], skip_special_tokens=True)
+            out = model.generate(**enc, max_new_tokens=600, do_sample=False)
+        return tok.decode(out[0][input_len:], skip_special_tokens=True)
 
     rows = []
     for task in list_tasks("heldout"):
