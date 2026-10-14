@@ -94,6 +94,9 @@ Designed to be lightweight and accessible, the entire pipeline is capable of run
 ```
 ExecRL-MLE/
 ├── README.md                           # Project root documentation
+├── frontend/                           # Interactive TypeScript / React Research Web Portal
+│   ├── src/components/                 # Interactive Canvas, Simulator, & Benchmark components
+│   └── package.json
 └── minimle-rl/
     ├── pyproject.toml                  # Package configuration (minimle)
     ├── requirements.txt                # Python dependencies
@@ -190,6 +193,17 @@ docker build -t minimle-sandbox docker/
 ```
 
 > **Note for Local Execution**: If you wish to run without Docker, set `USE_DOCKER=0` in `.env` to execute scripts directly in your local Python environment.
+
+### 4. Launch the Interactive Research Web Portal
+
+Explore the live evolutionary constellation simulation, interactive terminal simulator, and benchmark traces:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open **`http://localhost:5173/`** in your browser to view the interactive portal.
 
 ---
 
