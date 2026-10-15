@@ -10,6 +10,11 @@
 [![Base Model](https://img.shields.io/badge/Base%20Model-Qwen2.5--Coder--0.5B--Instruct-brightgreen.svg)](https://huggingface.co/Qwen/Qwen2.5-Coder-0.5B-Instruct)
 [![Docker](https://img.shields.io/badge/Docker-Sandboxed-2496ED.svg?logo=docker&logoColor=white)](#docker-sandbox-architecture)
 [![RL: GRPO](https://img.shields.io/badge/RL-GRPO%20(TRL)-purple.svg)](#reinforcement-learning-grpo)
+[![Medium Blog](https://img.shields.io/badge/Medium-Read%20Blog%20Post-black?logo=medium&logoColor=white)](https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078)
+
+> 📖 **Featured Article on Medium:**  
+> [**I Taught a 0.5B Model to Do Machine Learning Engineering on a 4GB Laptop GPU**](https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078)  
+> *A deep-dive into training lightweight code LLMs with isolated Docker sandboxing, tri-state state machines, and Group Relative Policy Optimization (GRPO) on accessible hardware.*
 
 ---
 
@@ -306,6 +311,7 @@ Key parameters can be configured via environment variables or in `minimle/config
 
 ## 📚 References & Acknowledgments
 
+- **[Medium Walkthrough Article](https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078)**: Comprehensive technical blog post covering architecture, lessons learned, and execution traces.
 - **Frontis-MA1 / OpenMLE**: Inspiration for execution-grounded SFT and RL for machine learning engineers.
 - **DeepSeekMath & DeepSeek-R1**: Pioneering Group Relative Policy Optimization (GRPO) for sample-efficient reasoning.
 - **Qwen2.5-Coder**: High-quality small code language models by the Qwen Team.

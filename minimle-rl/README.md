@@ -2,6 +2,9 @@
 
 A lightweight, execution-grounded Reinforcement Learning system inspired by **Frontis-MA1** and **OpenMLE**: trains a compact Code LLM (`Qwen2.5-Coder-0.5B`) with execution-grounded SFT + GRPO to autonomously **Draft**, **Improve**, and **Debug** ML solutions using Docker sandbox execution signals.
 
+> 📖 **Read the deep-dive Medium article:**  
+> [**I Taught a 0.5B Model to Do Machine Learning Engineering on a 4GB Laptop GPU**](https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078)
+
 ---
 
 ## 🛠️ Setup (Windows / WSL2 / Linux)
