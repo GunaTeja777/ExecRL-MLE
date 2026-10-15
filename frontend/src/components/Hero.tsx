@@ -8,6 +8,17 @@ export const Hero: React.FC = () => {
         <span>PREPRINT 2026</span> · <span>OPEN FULL-STACK RELEASE</span> · <span>EXECRL-MLE 1.0</span>
       </div>
 
+      <a
+        href="https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="blog-banner-pill"
+      >
+        <span className="blog-pill-tag">STORY</span>
+        <span className="blog-pill-text">I Taught a 0.5B Model to Do ML Engineering on a 4GB Laptop GPU</span>
+        <span className="blog-pill-arrow">Read on Medium ↗</span>
+      </a>
+
       <h1 className="hero-title">
         ExecRL-MLE: Training an <span className="cy">AI4AI Model</span> towards{' '}
         <span className="or">Recursive Self-Improvement</span> in Machine Learning Engineering

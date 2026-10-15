@@ -31,6 +31,15 @@ export const Footer: React.FC = () => {
 
         <div className="btnrow">
           <a
+            href="https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn"
+          >
+            <span>Medium Article</span>
+            <ExternalLink size={14} />
+          </a>
+          <a
             href="https://github.com/GunaTeja777/ExecRL-MLE"
             target="_blank"
             rel="noopener noreferrer"

@@ -1319,4 +1319,182 @@ footer {
   .chips { grid-template-columns: 1fr; }
   .rl-panel { padding: 20px 14px; }
   .rl-canvas-wrap { height: 320px; }
+  .blog-spotlight-body { flex-direction: column; align-items: flex-start; }
+  .blog-cta-btn { width: 100%; justify-content: center; }
+  .blog-banner-pill { width: 100%; justify-content: space-between; }
 }
+
+/* Medium Blog Featured Pill Banner */
+.blog-banner-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px auto 8px;
+  padding: 8px 18px 8px 12px;
+  border-radius: 999px;
+  background: rgba(250, 95, 38, 0.08);
+  border: 1px solid rgba(250, 95, 38, 0.35);
+  color: var(--white);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(250, 95, 38, 0.12);
+}
+
+.blog-banner-pill:hover {
+  background: rgba(250, 95, 38, 0.16);
+  border-color: var(--orange);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(250, 95, 38, 0.25);
+}
+
+.blog-pill-tag {
+  background: var(--orange);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.blog-pill-text {
+  font-weight: 500;
+  color: rgba(240, 242, 244, 0.95);
+}
+
+.blog-pill-arrow {
+  color: var(--orange);
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Navbar Blog Pill */
+.nav-blog-pill {
+  border-color: rgba(250, 95, 38, 0.4) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.nav-blog-pill:hover {
+  background: rgba(250, 95, 38, 0.15) !important;
+  border-color: var(--orange) !important;
+  color: var(--white) !important;
+}
+
+/* Hero Blog Button */
+.blog-btn {
+  border-color: rgba(250, 95, 38, 0.4) !important;
+  background: rgba(250, 95, 38, 0.08) !important;
+}
+
+.blog-btn:hover {
+  background: rgba(250, 95, 38, 0.18) !important;
+  border-color: var(--orange) !important;
+  transform: translateY(-2px);
+}
+
+/* Abstract Medium Spotlight Card */
+.blog-spotlight-card {
+  margin: 36px 0 44px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(20, 16, 28, 0.85) 100%);
+  border: 1px solid rgba(250, 95, 38, 0.28);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-spotlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--orange) 0%, var(--cyan) 100%);
+}
+
+.blog-spotlight-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 12px;
+}
+
+.blog-spotlight-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.blog-spotlight-info {
+  flex: 1;
+}
+
+.blog-spotlight-title {
+  font-family: var(--disp);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+
+.blog-spotlight-desc {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(240, 242, 244, 0.76);
+  margin-bottom: 14px;
+}
+
+.blog-spotlight-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  font-family: var(--mono);
+  color: rgba(240, 242, 244, 0.5);
+}
+
+.blog-spotlight-meta b {
+  color: var(--white);
+}
+
+.dot-sep {
+  color: rgba(240, 242, 244, 0.3);
+}
+
+.blog-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 22px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FA5F26 0%, #D84315 100%);
+  color: #fff;
+  font-family: var(--disp);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(250, 95, 38, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.blog-cta-btn:hover {
+  background: linear-gradient(135deg, #FF6F3D 0%, #E64A19 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(250, 95, 38, 0.5);
+}
+

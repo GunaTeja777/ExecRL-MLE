@@ -37,6 +37,15 @@ export const Navbar: React.FC = () => {
           <a href="#training">RL Trace</a>
           <a href="#bibtex">BibTeX</a>
           <a
+            href="https://medium.com/@tejag078/i-taught-a-0-5b-model-to-do-machine-learning-engineering-on-a-4gb-laptop-gpu-075c6382fed5?sharedUserId=tejag078"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pill-btn nav-blog-pill"
+          >
+            <span>Medium Blog</span>
+            <ExternalLink size={12} />
+          </a>
+          <a
             href="https://github.com/GunaTeja777/ExecRL-MLE"
             target="_blank"
             rel="noopener noreferrer"
