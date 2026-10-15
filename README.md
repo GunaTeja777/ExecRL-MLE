@@ -30,52 +30,11 @@ Designed to be lightweight and accessible, the entire pipeline is capable of run
 
 ## 🏗️ System Architecture & Workflow
 
-```
-                                      ┌────────────────────────────────┐
-                                      │   Task Definition & Metadata   │
-                                      │ (OpenML Datasets: Train/Hold)  │
-                                      └──────────────┬─────────────────┘
-                                                     │
-                                                     ▼
-                                      ┌────────────────────────────────┐
-                                      │      Agent Policy (LLM)        │
-                                      │   Qwen2.5-Coder-0.5B-Instruct  │
-                                      └──────────────┬─────────────────┘
-                                                     │
-                                                     │ Generated Script (solution.py)
-                                                     ▼
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                       ISOLATED DOCKER SANDBOX                                          │
-│                                                                                                        │
-│   Host-Mount (Read-Only Features)        Sandboxed Execution               Generated Output            │
-│   ├── train.csv (Features + Target)  ─►  python solution.py (≤60s)    ─►   submission.csv              │
-│   └── eval_X.csv (Features Only)         [No Network, 3GB RAM, 2 CPUs]     (Predicted Probabilities)   │
-└────────────────────────────────────────────────────┬───────────────────────────────────────────────────┘
-                                                     │
-                                                     ▼
-                                      ┌────────────────────────────────┐
-                                      │      Host Scoring Engine       │
-                                      │  (val_y.csv / test_y.csv kept  │
-                                      │   strictly secret on Host!)    │
-                                      └──────────────┬─────────────────┘
-                                                     │
-                         ┌───────────────────────────┴───────────────────────────┐
-                         ▼                                                       ▼
-                 [Runtime Error]                                         [Execution Success]
-               Feedback: Stderr Traces                                  Feedback: ROC AUC Score
-                         │                                                       │
-                         ▼                                                       ▼
-                Next Op: DEBUG                                          Next Op: IMPROVE
-                         │                                                       │
-                         └───────────────────────────┬───────────────────────────┘
-                                                     │
-                                                     ▼
-                                      ┌────────────────────────────────┐
-                                      │    Execution-Grounded RL       │
-                                      │    Group Relative Policy       │
-                                      │      Optimization (GRPO)       │
-                                      └────────────────────────────────┘
-```
+<p align="center">
+  <img src="assets/architecture.png" alt="ExecRL-MLE Closed-Loop Autonomous ML Engineering Workflow" width="100%" />
+</p>
+
+> **Figure 1**: The complete closed-loop architecture of ExecRL-MLE. The Agent Policy (Qwen2.5-Coder-0.5B) generates candidate ML pipelines executed inside an isolated zero-network Docker sandbox. Feedback branches dynamically between autonomous debugging (on stderr crashes) and metric improvement (on execution success), continuously updated via Group Relative Policy Optimization (GRPO).
 
 ---
 
@@ -94,6 +53,8 @@ Designed to be lightweight and accessible, the entire pipeline is capable of run
 ```
 ExecRL-MLE/
 ├── README.md                           # Project root documentation
+├── assets/                             # System architecture diagrams and visual assets
+│   └── architecture.png                # High-res closed-loop execution workflow schematic
 ├── frontend/                           # Interactive TypeScript / React Research Web Portal
 │   ├── src/components/                 # Interactive Canvas, Simulator, & Benchmark components
 │   └── package.json
