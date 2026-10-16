@@ -102,9 +102,7 @@ export const BibtexSection: React.FC = () => {
             <code>
               <span className="c">@article</span>&#123;<span className="o">execrl_mle_2026</span>,{"\n"}
               {"  "}title   = &#123;ExecRL-MLE: Training an AI4AI Model towards Recursive Self-Improvement in Machine Learning Engineering&#125;,{"\n"}
-              {"  "}author  = &#123;Teja, Guna and Horizon Research Group&#125;,{"\n"}
-              {"  "}journal = &#123;arXiv preprint arXiv:2603.01824&#125;,{"\n"}
-              {"  "}year    = &#123;2026&#125;,{"\n"}
+              {"  "}author  = &#123;Guna Teja&#125;,{"\n"}
               {"  "}url     = &#123;https://github.com/GunaTeja777/ExecRL-MLE&#125;{"\n"}
               &#125;
             </code>
