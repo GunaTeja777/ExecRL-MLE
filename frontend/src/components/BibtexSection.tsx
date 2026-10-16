@@ -6,8 +6,7 @@ export const BibtexSection: React.FC = () => {
 
   const bibtexText = `@article{execrl_mle_2026,
   title   = {ExecRL-MLE: Training an AI4AI Model towards Recursive Self-Improvement in Machine Learning Engineering},
-  author  = {Teja, Guna and Horizon Research Group},
-  journal = {arXiv preprint arXiv:2603.01824},
+  author  = {Guna Teja},
   year    = {2026},
   url     = {https://github.com/GunaTeja777/ExecRL-MLE}
 }`;
